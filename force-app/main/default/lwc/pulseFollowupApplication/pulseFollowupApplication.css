@@ -1,0 +1,46 @@
+.header_font{
+	font-size: 1.375rem;
+}
+.align_item_center{
+	align-self: center;
+	align-items: center;
+}
+.background_color_white{
+	background-color: white;
+}
+.menu_item{
+	align-items: center;
+	gap: 5px;
+}
+.border-top{
+	border-top: 1px solid #e9e8e7;
+}
+.align_item_end{
+	align-items: end;
+}
+.user_pill{
+	width:100%;
+	display:inline-block;
+	display:flex;
+	height:2rem
+}
+.disabled{
+	cursor: not-allowed;
+	background-color: #eeeeee;
+	overflow: hidden;
+}
+.remove_border{
+	border: 0px;
+}
+.reset_btn{
+    text-decoration: none;
+}
+.accordionClass{
+	padding-top: 0px;
+}
+.spinner{
+	position: fixed;
+}
+.white-utility-icon{
+	--sds-c-icon-color-foreground-default: white;
+}

@@ -1,0 +1,324 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-31-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+	<lightning-spinner alternative-text="Loading" size="small" if:true={isLoading} class="slds-is-fixed">
+	</lightning-spinner>
+	<div class="slds-grid slds-gutters align-item-center">
+		<div class="slds-col">
+			<div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open display " onclick={handleFollowUpClick}>
+				<button class="slds-button slds-button_neutral" aria-haspopup="true" aria-expanded="true" title="Sort By">Actions
+					<lightning-icon icon-name="utility:down" size="xx-small" class="slds-m-left_xx-small"></lightning-icon>
+				</button>
+				<div class="slds-dropdown slds-dropdown_left slds-dropdown_medium" lwc:if={openActionDropDown}>
+					<ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+						<template for:each={actionOptions} for:item="obj" for:index="index">
+							<li class="slds-dropdown__item" role="presentation" key={obj.label} onclick={handleFollowUpSelect}
+								data-index={index} data-value={obj.value}>
+								<a aria-checked="true" role="menuitemcheckbox" tabindex="0"
+									class="slds-grid slds-align_absolute-center">
+									<div class="slds-col slds-size_1-of-12">
+										<lightning-icon icon-name="utility:check" size="xx-small" if:true={obj.isSelected}>
+										</lightning-icon>
+									</div>
+									<span title={obj.label} class="slds-col slds-size_11-of-12">{obj.label}</span>
+								</a>
+							</li>
+						</template>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="slds-col slds-m-right_x-small slds-text-align_right">Total Records : {_totalRecords} </div>
+	</div>
+	<div class="slds-m-top_medium slds-grid" style="flex-direction:column-reverse">
+		<div class="footer slds-p-around_x-small" if:true={showFotter} style="width:100%">
+			<lightning-button variant="neutral" label="Cancel" onclick={handleDismiss}></lightning-button>
+			<lightning-button variant="brand" name="update" label="Save" onclick={handleSave}
+				class="slds-m-left_xx-small"></lightning-button>
+		</div>
+		<table aria-multiselectable="true"
+			class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid"
+			aria-label="Example advanced table of Opportunities in actionable mode">
+			<thead>
+				<tr class="slds-line-height_reset">
+					<th class="slds-text-align_right slds-cell_action-mode" scope="col" style="width:3.25rem">
+						<span id="column-group-header" class="slds-assistive-text">Choose a row</span>
+						<div class="slds-th__action slds-th__action_form">
+							<div class="slds-checkbox">
+								<lightning-input type="checkbox" variant="label-hidden" onchange={handleCheckBoxChange}
+									class="master_checkbox"></lightning-input>
+							</div>
+						</div>
+					</th>
+					<th aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col"
+						data-col-index="1">
+						<a class="slds-th__action slds-text-link_reset sort_by" role="button" tabindex="0"
+							onclick={handleSortClick} data-colname="name" data-apiname="Name">
+							<span class="slds-assistive-text">Sort by: </span>
+							<div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+								<span class="slds-truncate" title="Name">Name</span>
+								<span class="slds-icon_container slds-icon-utility-arrowdown">
+								<div if:true={sortBySelection.name.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowup" size="xx-small" if:true={sortBySelection.name.asc}></lightning-icon>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowdown" size="xx-small" if:true={sortBySelection.name.desc}></lightning-icon>
+								</div>
+								<div if:false={sortBySelection.name.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small sort_icon" icon-name="utility:arrowup" size="xx-small" ></lightning-icon>
+								</div>
+							</span>
+							</div>
+						</a>
+						<div class="slds-resizable">
+							<input type="range" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-533" max="1000" min="20" tabindex="0" />
+							<span class="slds-resizable__handle resizer" onmousedown={resizeColumn} data-col-index="1">
+							<span class="slds-resizable__divider"></span>
+							</span>
+						</div>
+					</th>
+					<th aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col"
+						data-col-index="2">
+						<a class="slds-th__action slds-text-link_reset sort_by" role="button" tabindex="0"
+							onclick={handleSortClick} data-colname="followUpDate" data-apiname={followUpDate}>
+							<span class="slds-assistive-text">Sort by: </span>
+							<div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+								<span class="slds-truncate" title="Follow Up Date">Follow Up Date</span>
+								<span class="slds-icon_container slds-icon-utility-arrowdown">
+								<div if:true={sortBySelection.followUpDate.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowup" size="xx-small" if:true={sortBySelection.followUpDate.asc}></lightning-icon>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowdown" size="xx-small" if:true={sortBySelection.followUpDate.desc}></lightning-icon>
+								</div>
+								<div if:false={sortBySelection.followUpDate.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small sort_icon" icon-name="utility:arrowup" size="xx-small" ></lightning-icon>
+								</div>
+							</span>
+							</div>
+						</a>
+						<div class="slds-resizable">
+							<input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-534" max="1000" min="20" tabindex="0" />
+							<span class="slds-resizable__handle resizer" onmousedown={resizeColumn} data-col-index="2">
+							<span class="slds-resizable__divider"></span>
+							</span>
+						</div>
+					</th>
+					<th aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col"
+						data-col-index="3">
+						<a class="slds-th__action slds-text-link_reset sort_by" role="button" tabindex="0"
+							onclick={handleSortClick} data-colname="stage" data-apiname={stg}>
+							<span class="slds-assistive-text">Sort by: </span>
+							<div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+								<span class="slds-truncate" title="Stage">Stage</span>
+								<span class="slds-icon_container slds-icon-utility-arrowdown">
+								<div if:true={sortBySelection.stage.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowup" size="xx-small" if:true={sortBySelection.stage.asc}></lightning-icon>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowdown" size="xx-small" if:true={sortBySelection.stage.desc}></lightning-icon>	
+								</div>
+								<div if:false={sortBySelection.stage.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small sort_icon" icon-name="utility:arrowup" size="xx-small" ></lightning-icon>
+								</div>
+							</span>
+							</div>
+						</a>
+						<div class="slds-resizable">
+							<input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-535" max="1000" min="20" tabindex="0" />
+							<span class="slds-resizable__handle resizer" onmousedown={resizeColumn} data-col-index="3">
+							<span class="slds-resizable__divider"></span>
+							</span>
+						</div>
+					</th>
+					<th aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col"
+						data-col-index="4">
+						<a class="slds-th__action slds-text-link_reset sort_by" role="button" tabindex="0"
+							onclick={handleSortClick} data-colname="applicationTypeSort" data-apiname="ple__Application_Type__c">
+							<span class="slds-assistive-text">Sort by: </span>
+							<div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+								<span class="slds-truncate" title="Application Type">Application Type</span>
+								<span class="slds-icon_container slds-icon-utility-arrowdown">
+								<div if:true={sortBySelection.applicationTypeSort.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowup" size="xx-small" if:true={sortBySelection.applicationTypeSort.asc}></lightning-icon>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowdown" size="xx-small" if:true={sortBySelection.applicationTypeSort.desc}></lightning-icon>	
+								</div>
+								<div if:false={sortBySelection.applicationTypeSort.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small sort_icon" icon-name="utility:arrowup" size="xx-small" ></lightning-icon>
+								</div>
+							</span>
+							</div>
+						</a>
+						<div class="slds-resizable">
+							<input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-536" max="1000" min="20" tabindex="0" />
+							<span class="slds-resizable__handle resizer" onmousedown={resizeColumn} data-col-index="4">
+							<span class="slds-resizable__divider"></span>
+							</span>
+						</div>
+					</th>
+					<th aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col"
+						data-col-index="6">
+						<a class="slds-th__action slds-text-link_reset sort_by" role="button" tabindex="0"
+							onclick={handleSortClick} data-colname="createdDate" data-apiname="CreatedDate">
+							<span class="slds-assistive-text">Sort by: </span>
+							<div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+								<span class="slds-truncate" title="Created Date">Created Date</span>
+								<span class="slds-icon_container slds-icon-utility-arrowdown">
+								<div if:true={sortBySelection.createdDate.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowup" size="xx-small" if:true={sortBySelection.createdDate.asc}></lightning-icon>
+									<lightning-icon class="slds-m-left_xx-small" icon-name="utility:arrowdown" size="xx-small" if:true={sortBySelection.createdDate.desc}></lightning-icon>	
+								</div>
+								<div if:false={sortBySelection.createdDate.isSelected}>
+									<lightning-icon class="slds-m-left_xx-small sort_icon" icon-name="utility:arrowup" size="xx-small" ></lightning-icon>
+								</div>
+							</span>
+							</div>
+						</a>
+						<div class="slds-resizable">
+							<input type="range" aria-label="Amount column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-538" max="1000" min="20" tabindex="0" />
+							<span class="slds-resizable__handle resizer" onmousedown={resizeColumn} data-col-index="6">
+							<span class="slds-resizable__divider"></span>
+							</span>
+						</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<template for:each={applicationToDisplay} for:item="obj" for:index="index">
+					<tr class="slds-hint-parent" key={obj.Id}>
+						<td class="slds-text-align_right slds-cell_action-mode" role="gridcell">
+							<div class="slds-checkbox">
+								<lightning-input type="checkbox" class="input_checkbox" label={obj.Name} name={obj.Name}
+									variant="label-hidden" data-id={obj.Id}></lightning-input>
+							</div>
+						</td>
+						<th class="slds-cell_action-mode handle_hover Name" scope="row">
+							<div title={obj.Name}>
+								<div class="slds-grid slds-wrap slds-truncate" if:false={obj.isNameEditable}>
+									<a onclick={navigateToRecordPage} data-id={obj.Id} tabindex="0"
+										class="slds-col slds-size_10-of-12 slds-truncate">{obj.Name}</a>
+									<lightning-icon icon-name="utility:edit" size="xx-small"
+										class="slds-col slds-size_2-of-12 edit_icon" onclick={openEditable}
+										data-property="isNameEditable" data-index={index} style="text-align:right">
+									</lightning-icon>
+								</div>
+								<div class="slds-popover__body slds-popover slds-popover_edit font_100"
+									if:true={obj.isNameEditable}>
+									<div class="slds-grid">
+										<abbr title="required" class="slds-required" lwc-1kv10121cgu="">*</abbr>
+										<lightning-input type="text" required value={obj.Name} style="width:100%"
+											variant="label-hidden" onchange={handleInputChange} data-fieldapiname="Name"
+											onclick={handleInputClick} data-id={obj.Id} data-index={index}>
+										</lightning-input>
+									</div>
+								</div>
+							</div>
+						</th>
+						<td class="slds-cell_action-mode handle_hover ple__Follow_Up__c" role="gridcell">
+							<div class="slds-grid slds-wrap" if:false={obj.isFollowUpEditable}>
+								<div class="slds-truncate slds-col slds-size_10-of-12">
+									<lightning-formatted-date-time value={obj.formatFollowUpDate2}  year="numeric"  month="2-digit"  day="2-digit" time-zone="UTC"></lightning-formatted-date-time></div>
+								<lightning-icon icon-name="utility:edit" size="xx-small"
+									class="slds-col slds-size_2-of-12 edit_icon" onclick={openEditable}
+									data-property="isFollowUpEditable" data-index={index} style="text-align:right">
+								</lightning-icon>
+							</div>
+							<div class="slds-popover__body slds-popover slds-popover_edit font_100"
+								if:true={obj.isFollowUpEditable}>
+								<lightning-input type="date" value={obj.ple__Follow_Up__c} variant="label-hidden"
+									onchange={handleInputChange} data-fieldapiname={followUpDate}
+									onclick={handleInputClick} data-id={obj.Id} data-index={index}></lightning-input>
+							</div>
+						</td>
+						<td class="slds-cell_action-mode handle_hover ple__Stage__c" role="gridcell">
+							<div class="slds-grid slds-wrap" if:false={obj.isStageEditable}>
+								<div class="slds-truncate slds-col slds-size_10-of-12" title={obj.ple__Stage__c}>{obj.ple__Stage__c}
+								</div>
+								<lightning-icon icon-name="utility:edit" size="xx-small"
+									class="slds-col slds-size_2-of-12 edit_icon" onclick={openEditable}
+									data-property="isStageEditable" data-index={index} style="text-align:right">
+								</lightning-icon>
+							</div>
+							<div class="slds-popover__body slds-popover slds-popover_edit font_100"
+								if:true={obj.isStageEditable}>
+								<lightning-combobox name="ple__Stage__c" variant="label-hidden" placeholder="Select Stage"
+									options={stageOptions} value={obj.ple__Stage__c} onchange={handleInputChange}
+									data-fieldapiname={stg} onclick={handleInputClick} data-id={obj.Id} dropdown-alignment="auto"
+									data-index={index}></lightning-combobox>
+							</div>
+						</td>
+						<td class="slds-cell_action-mode handle_hover ple__Application_Type__c" role="gridcell">
+							<div class="slds-grid slds-wrap" if:false={obj.isApplicationTypeEditable}>
+								<div class="slds-truncate slds-col slds-size_10-of-12" title={obj.ple__Application_Type__c}>{obj.ple__Application_Type__c}
+								</div>
+								<lightning-icon icon-name="utility:edit" size="xx-small"
+									class="slds-col slds-size_2-of-12 edit_icon" onclick={openEditable}
+									data-property="isApplicationTypeEditable" data-index={index} style="text-align:right">
+								</lightning-icon>
+							</div>
+							<div class="slds-popover__body slds-popover slds-popover_edit font_100"
+								if:true={obj.isApplicationTypeEditable}>
+								<lightning-combobox name="ple__Application_Type__c" variant="label-hidden" placeholder="Select Application Type"
+									options={applicationTypeOptions} value={obj.ple__Application_Type__c} onchange={handleInputChange}
+									data-fieldapiname="ple__Application_Type__c" onclick={handleInputClick} data-id={obj.Id} dropdown-alignment="auto"
+									data-index={index}></lightning-combobox>
+							</div>
+						</td>
+						<td class="slds-cell_action-mode handle_hover" role="gridcell">
+							<div class="slds-grid slds-wrap">
+								<div class="slds-truncate slds-col slds-size_11-of-12" title={obj.CreatedDate}>
+									{obj.CreatedDate}</div>
+								<lightning-icon icon-name="utility:lock" size="xx-small"
+									class="slds-col slds-size_1-of-12 edit_icon"></lightning-icon>
+							</div>
+						</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	</div>
+
+	<div if:true={isActionModalOpen}>
+		<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+			class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleActionModalClose}>
+					<lightning-icon icon-name="utility:close" size="small" class='white-utility-icon' ></lightning-icon>
+				</button>
+				<div class="slds-modal__header">
+					<h1 class="slds-modal__title slds-hyphenate" tabindex="-1">{modalHeader}</h1>
+				</div>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<div if:true={openConfirmationScreen}>
+						<center>Are you sure you want to update the records?</center>
+					</div>
+					<div if:false={openConfirmationScreen}>
+						<div if:true={selectedAction.followUp}>
+							<lightning-input type="date" variant="standard" name="Follow Up Date" label="Follow Up Date"
+								placeholder="Follow Up Date" class="follow_up_date_value"></lightning-input>
+						</div>
+						<div if:true={selectedAction.stage}>
+							<lightning-combobox name="Stage" variant="label-hidden" placeholder="Select Stage"
+								options={stageOptions} class="stage_value"></lightning-combobox>
+						</div>
+						<div if:true={selectedAction.owner}>
+							<lightning-record-picker variant="label-hidden" label="Search for user"
+								placeholder="Search for user" object-api-name="User" class="user_value">
+							</lightning-record-picker>
+						</div>
+					</div>
+				</div>
+				<div class="slds-modal__footer">
+					<div if:false={openConfirmationScreen}>
+						<button class="slds-button slds-button_neutral" onclick={handleActionModalClose}>Cancel</button>
+						<button class="slds-button slds-button_brand" onclick={handleActionClick}>Save</button>
+					</div>
+					<div if:true={openConfirmationScreen}>
+						<button class="slds-button slds-button_neutral" onclick={closeConfirmationModal}>No</button>
+						<button class="slds-button slds-button_brand" onclick={handleConfirmationClick}>Yes</button>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+	</div>
+</template>

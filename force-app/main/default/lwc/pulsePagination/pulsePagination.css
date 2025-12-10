@@ -1,0 +1,44 @@
+.currentpage {
+    --slds-c-button-neutral-color-background: var(--lwc-brandAccessible);
+    --slds-c-button-text-color: #fff;
+    --slds-c-button-neutral-color-border-hover: none;
+}
+
+lightning-button {
+    --slds-c-button-radius-border: 0%;
+}
+
+.align_item_center {
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-button {
+    height: 2rem;
+    border-radius: 0;
+}
+
+.pagination-button:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+	background-color: white;
+	border: 1px solid;
+}
+
+.pagination-button:active {
+    outline: none;
+    box-shadow: none;
+    border: none;
+	background-color: white;
+	border: 1px solid;
+}
+
+.disabled_cursor {
+    cursor: not-allowed;
+}
+.no-hover{
+    --slds-c-button-neutral-color-background-hover : #0176d3;
+    --slds-c-button-text-color-hover : white;
+   --slds-c-button-neutral-color-border-hover : white;
+}

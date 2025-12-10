@@ -1,0 +1,146 @@
+<template>
+    <template lwc:if={recordNotSelected}>
+        <div class="slds-form-element lookupStyles">
+            <label class="slds-form-element__label" for="combobox-id-12"
+                id="combobox-label-id-130"><b>{label}</b><span if:true={isFieldRequired} style="color: red; font-weight: bold;"> *</span></label>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">
+                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                            role="none">
+                            <input lwc:ref="inputBox" type="text" class="slds-input slds-combobox__input" id="combobox-id-12"
+                                aria-autocomplete="list" aria-controls="listbox-id-10" aria-expanded="true"
+                                aria-haspopup="listbox" autocomplete="off" role="combobox" placeholder="Search..."
+                                onclick={showOptions} onkeyup={filterList} onblur={hideOptions} />
+                            <div
+                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" style="margin-right:30px">
+                                <lightning-spinner lwc:if={showSpinner} variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
+                            </div>
+                            <span
+                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                <lightning-icon icon-name="utility:search" size="x-small"
+                                    alternative-text="Doc image"></lightning-icon>
+                            </span>
+                        </div>
+                        <div id="listbox-id-10"
+                            class="displayNone slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid options"
+                            role="listbox" aria-label="" tabindex="0" aria-busy="false">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <template lwc:if={listEmptyOrNot}>
+                                    <template for:each={filteredListOfRecords} for:item="item">
+                                        <li onclick={selectRecord} role="presentation" class="slds-listbox__item"
+                                            key={item.Id} data-key={item.Id}>
+                                            <div id="option749"
+                                                class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center"
+                                                role="option">
+                                                <span class="slds-media__figure slds-listbox__option-icon">
+                                                    <lightning-icon icon-name={iconName} size="x-small"
+                                                        alternative-text="Doc image"></lightning-icon>
+                                                </span>
+                                                <span class="slds-media__body">
+                                                    <span
+                                                        class="slds-listbox__option-text slds-listbox__option-text_entity">{item.value}</span>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </template>
+                                    <li onclick={openModalToAddRecord} role="presentation" class="slds-listbox__item">
+                                        <div id=""
+                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center"
+                                            role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <lightning-icon icon-name="utility:add" size="x-small"
+                                                    alternative-text="Doc image"></lightning-icon>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="makeItBold slds-listbox__option-text slds-listbox__option-text_entity">{labelForAddButton}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                                <template lwc:else>
+                                    <li onclick={openModalToAddRecord} role="presentation" class="slds-listbox__item">
+                                        <div id="s"
+                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center"
+                                            role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <lightning-icon icon-name="utility:add" size="x-small"
+                                                    alternative-text="Doc image"></lightning-icon>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="makeItBold slds-listbox__option-text slds-listbox__option-text_entity">{labelForAddButton}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template lwc:else>
+        <div class="slds-form-element lookupStyles">
+            <label class="slds-form-element__label" for="combobox-id-18"
+                id="combobox-label-id-133"><b>{label}</b><span if:true={isFieldRequired} style="color: red; font-weight: bold;"> *</span></label>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">
+                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right"
+                            role="none">
+                            <span
+                                class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon"
+                                title="Account">
+                                <lightning-icon icon-name={iconName} size="x-small"
+                                alternative-text="Doc image"></lightning-icon>
+                                <span class="slds-assistive-text">{searchSentence}</span>
+                            </span>
+                            <div role="combobox" tabindex="0"
+                                class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                                aria-labelledby="combobox-label-id-133 combobox-id-18-selected-value"
+                                id="combobox-id-18-selected-value" aria-controls="listbox-id-18" aria-expanded="false"
+                                aria-haspopup="listbox">
+                                <span class="slds-truncate" id="combobox-value-id-96">{selectedRecordName}</span>
+                            </div>
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                title="Remove selected option">
+                                <lightning-icon icon-name="utility:close" size="xx-small" alternative-text="Change It"
+                                    onclick={resetSelectedRecord}></lightning-icon>
+                                <span class="slds-assistive-text">Remove selected option</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Modal/Popup-->
+      <template lwc:if={showModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Create New Record</h2>
+                </header>
+
+                <!-- Modal/Popup Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                  <lightning-flow onstatuschange={handleStatusChange} flow-api-name={flowApiName} > </lightning-flow>
+                </div>
+                <!-- Modal/Popup Footer -->
+                <!-- <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                </footer> -->
+            </div>
+        </section>
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+    
+</template>

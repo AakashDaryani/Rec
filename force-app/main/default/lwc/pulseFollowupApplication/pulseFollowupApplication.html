@@ -1,0 +1,119 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-31-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+	<lightning-spinner alternative-text="Loading" size="small" if:true={isLoading} class="slds-is-fixed" style="z-index:999999">
+	</lightning-spinner>
+	<div class="slds-p-around_xxx-small slds-grid" style="flex-direction:column-reverse;background:white">
+		<div if:true={applicationAvailable} class="slds-m-top_medium" style="z-index:9">
+			<div>
+				<c-pulse-listview-application total-records={totalApplication} application-list={paginatedApplicationList} onopenmodal={openEditModal}
+					onsave={handleSaveClick} onsort={handleSort} order-by={orderByValue}></c-pulse-listview-application>
+			</div>
+			<div if:true={showPagination} class="slds-m-top_medium">
+				<center class="slds-m-bottom_x-small">
+					<c-pulse-pagination totalrecords={totalApplication} page-size={pageSize} onpagination={handlePagination}>
+					</c-pulse-pagination>
+				</center>
+			</div>
+		</div>
+		<div if:false={applicationAvailable} class="slds-p-around_xx-small">
+			No Records Available.
+		</div>
+		<article class="slds-card">
+			<div class="slds-p-horizontal_x-small">
+				<div class="slds-grid slds-gutters align_item_center">
+					<div class="slds-col slds-grid align_item_center">
+						<p class="header_font slds-col slds-size_6-of-12">My Follow Ups</p>
+					</div>
+				</div>
+				<div class="slds-grid align_item_end slds-gutters slds-m-vertical_x-small">
+					<div class="slds-col slds-size_3-of-12">
+						<lightning-input type="text" variant="standard" label="Search for Application" placeholder="Search Application..." onkeyup={handleApplicationSearchChange}></lightning-input>
+					</div>
+					<div class="slds-col slds-size_3-of-12">
+						<label class="slds-form-element__label" >View As</label>
+						<lightning-combobox variant="label-hidden" placeholder={currentUserDetail.Name}
+							options={userList} onchange={handleUserChange} if:false={viewAsUser.isSelected}
+							value={comboboxValue}></lightning-combobox>
+						<div if:true={viewAsUser.isSelected}>
+							<span class={viewAsUser.sldsClass} aria-selected="true">
+								<span class="slds-pill__label slds-m-left_xxx-small" title={viewAsUser.name}>{viewAsUser.name}</span>
+							<span class="slds-icon_container slds-pill__remove" title="Remove">
+									<button class={viewAsUser.sldsClass_button} title="Remove">
+										<lightning-icon icon-name="utility:close" size="xx-small"  onclick={removeUserSelected} ></lightning-icon>
+										<span class="slds-assistive-text">Remove</span>
+							</button>
+							</span>
+							</span>
+						</div>
+					</div>
+                    <div class="slds-col slds-size_2-of-12">
+						<div>
+							<label class="slds-form-element__label" >Application Type</label>
+							<lightning-combobox variant="label-hidden" placeholder="Application Type"
+								options={applicationType} onchange={handleApplicationTypeChange}
+								if:false={isApplicationTypeSelected}></lightning-combobox>
+						</div>
+						<div if:true={isApplicationTypeSelected}>
+							<span class="slds-pill  user_pill" aria-selected="true">
+								<span class="slds-pill__label slds-m-left_xxx-small" title={selectedApplicationType}>{selectedApplicationType}</span>
+							<span class="slds-icon_container slds-pill__remove" title="Remove">
+									<button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onclick={handleApplicationTypeRemove}>
+										<lightning-icon icon-name="utility:close" size="xx-small"   ></lightning-icon>
+										<span class="slds-assistive-text">Remove</span>
+							</button>
+							</span>
+							</span>
+						</div>
+					</div>
+                    <div class="slds-col slds-size_2-of-12">
+						<div>
+							<label class="slds-form-element__label" >Stage</label>
+							<lightning-combobox variant="label-hidden" placeholder="Stage" options={displayList}
+								onchange={handleDisplayChange} if:false={isDisplayAsSelected}></lightning-combobox>
+						</div>
+						<div if:true={isDisplayAsSelected}>
+							<span class="slds-pill  user_pill" aria-selected="true">
+								<span class="slds-pill__label slds-m-left_xxx-small" title={selectedDisplayAs}>{selectedDisplayAs}</span>
+							<span class="slds-icon_container slds-pill__remove" title="Remove">
+									<button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onclick={handleDisplayRemove}>
+										<lightning-icon icon-name="utility:close" size="xx-small"   ></lightning-icon>
+										<span class="slds-assistive-text">Remove</span>
+							</button>
+							</span>
+							</span>
+						</div>
+					</div>
+                    <div class="slds-col slds-size_2-of-12">
+						<div>
+							<label class="slds-form-element__label" >Follow Ups</label>
+							<lightning-combobox variant="label-hidden" placeholder="Follow Ups"
+								options={followUpsOptions} onchange={handleFollowUpsChange}
+								if:false={isFollowUpSelected}></lightning-combobox>
+						</div>
+						<div if:true={isFollowUpSelected}>
+							<span class="slds-pill  user_pill" aria-selected="true">
+								<span class="slds-pill__label slds-m-left_xxx-small" title={followUpToDisplay}>{followUpToDisplay}</span>
+							<span class="slds-icon_container slds-pill__remove" title="Remove">
+									<button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onclick={handleFollowUpRemove}>
+										<lightning-icon icon-name="utility:close" size="xx-small"   ></lightning-icon>
+										<span class="slds-assistive-text">Remove</span>
+							</button>
+							</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</article>
+	</div>
+	<div class="scroll_to_ellement"></div>
+
+
+</template>

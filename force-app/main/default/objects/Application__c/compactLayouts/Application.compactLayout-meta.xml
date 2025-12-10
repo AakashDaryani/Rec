@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application</fullName>
+    <fields>Name</fields>
+    <fields>Applicant__c</fields>
+    <fields>Market__c</fields>
+    <fields>Follow_Up__c</fields>
+    <fields>Stage__c</fields>
+    <fields>OwnerId</fields>
+    <fields>Application_Type__c</fields>
+    <label>Application</label>
+</CompactLayout>

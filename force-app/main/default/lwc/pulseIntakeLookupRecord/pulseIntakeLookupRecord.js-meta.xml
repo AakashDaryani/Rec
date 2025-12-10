@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+	<apiVersion>62.0</apiVersion>
+	<isExposed>true</isExposed>
+	<targets>
+		<target>lightning__AppPage</target>
+		<target>lightning__HomePage</target>
+		<target>lightning__RecordPage</target>
+		<target>lightning__RecordAction</target>
+		<target>lightning__UrlAddressable</target>
+		<target>lightning__FlowScreen</target>
+		<target>lightning__Tab</target>
+		<target>lightning__Inbox</target>
+		<target>lightningStatic__Email</target>
+		<target>lightning__UtilityBar</target>
+	</targets>
+	<targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property label="Record Type" name="recordTypeId" type="String" />
+            <property label="Object API Name" name="objectApiName" type="String" />
+            <property label="Field API Name" name="fieldName" type="String" />
+            <property label="Label" name="label" type="String" />
+            <property label="Default Value" name="defaultValue" type="String" />
+            <property label="record Id" name="recordId" type="String" role="outputOnly" />    
+            <property label="Label for add button" name="labelForAddButton" type="String" />   
+            <property label="isFieldRequired" name="isFieldRequired" type="Boolean" />
+             <property name="filterValue" type="String" label="Filter Value" description="Filter to be applied in the query"/>   
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

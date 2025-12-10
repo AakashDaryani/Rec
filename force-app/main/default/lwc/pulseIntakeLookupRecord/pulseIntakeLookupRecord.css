@@ -1,0 +1,15 @@
+.displayNone{
+    display:none !important;
+}
+
+.lookupStyles{
+    margin-bottom:4px;
+    top: -3px;
+}
+
+.makeItBold{
+    font-weight: 600;
+}
+.slds-modal__container{
+    width: 100%;
+}

@@ -1,0 +1,23 @@
+<template>
+    <div class="container">
+        <p class="slds-grid align_item_center">
+            <button class="slds-button slds-button_neutral pagination-button" onclick={handlePrevious} if:false={disableleftarrow}>
+                <lightning-icon icon-name="utility:chevronleft" alternative-text="Doc image" size="xx-small"></lightning-icon>
+            </button>
+            <button class="slds-button slds-button_neutral pagination-button disabled_cursor" disabled={disableleftarrow}  if:true={disableleftarrow}>
+                <lightning-icon icon-name="utility:chevronleft" alternative-text="Doc image" size="xx-small"></lightning-icon>
+            </button>
+            <span>
+                <template for:each={pageList} for:item="p" for:index="index">
+                    <lightning-button key={p} label={p} onclick={handleClick} data-index={index} class="no-hover"></lightning-button>
+                </template>
+            </span>
+            <button class="slds-button slds-button_neutral pagination-button disabled_cursor"  disabled={disablerightarrow} if:true={disablerightarrow}>
+                <lightning-icon icon-name="utility:chevronright" alternative-text="Doc image" size="xx-small"></lightning-icon>
+            </button>
+            <button class="slds-button slds-button_neutral pagination-button" onclick={handleNext} if:false={disablerightarrow}>
+                <lightning-icon icon-name="utility:chevronright" alternative-text="Doc image" size="xx-small"></lightning-icon>
+            </button>
+        </p>
+    </div>
+</template>

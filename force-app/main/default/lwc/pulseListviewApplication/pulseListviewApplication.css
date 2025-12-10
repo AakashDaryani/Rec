@@ -1,0 +1,37 @@
+.edit_icon{
+	display: none;
+}
+.sort_icon{
+	display: none;
+}
+.sort_by{
+	cursor: pointer;
+}
+.sort_by:hover .sort_icon{
+	display: inline-block;
+}
+.handle_hover:hover .edit_icon{
+	display: inline-block;
+	opacity: 0.6;
+	cursor: pointer;
+}
+.resizer{
+	will-change: transform;
+}
+.changed_input{
+	background: #f9e3b6;
+    font-weight: 700;
+}
+.footer{
+	text-align: center;
+	background-color:#f3f3f3;
+}
+.font_100{
+	font-weight: 400;
+}
+.white-utility-icon{
+	--sds-c-icon-color-foreground-default: black;
+}
+.align-item-center{
+	align-items: center;
+}
