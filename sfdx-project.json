@@ -11,10 +11,10 @@
     {
       "path": "force-app",
       "default": true,
-      "versionName": "ver 1.12",
-      "versionNumber": "1.12.0.NEXT",
+      "versionName": "ver 1.16",
+      "versionNumber": "1.16.0.NEXT",
       "package": "RecruitingApp",
-      "ancestorId": "04tUL0000003KAHYA2",
+      "ancestorId": "04tUL0000003v3NYAQ",
       "dependencies": [
         {
           "package": "Pulse_Base1.0.1",
@@ -119,7 +119,11 @@
     "RecruitingApp@1.9.0-1": "04tUL0000003v3NYAQ",
     "RecruitingApp@1.10.0-1": "04tUL0000003vBRYAY",
     "RecruitingApp@1.11.0-1": "04tUL0000003wFZYAY",
-    "RecruitingApp@1.12.0-2": "04tUL00000041TlYAI"
+    "RecruitingApp@1.12.0-2": "04tUL00000041TlYAI",
+    "RecruitingApp@1.13.0-1": "04tUL00000043ovYAA",
+    "RecruitingApp@1.14.0-1": "04tUL0000004453YAA",
+    "RecruitingApp@1.15.0-1": "04tUL0000004CQnYAM",
+    "RecruitingApp@1.16.0-1": "04tUL0000004CXFYA2"
   },
   "name": "PulseRec7Oct",
   "namespace": "ple",
